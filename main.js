@@ -4,6 +4,8 @@ define([
 	'./lib/args',
 	'./lib/util'
 ], function (require, Deferred, args, util) {
+	var grepRegex;
+
 	return {
 		/**
 		 * The mode in which Intern is currently running. Either 'client' or 'runner'.
@@ -51,6 +53,21 @@ define([
 			}));
 
 			return dfd.promise;
+		},
+
+		grep: function (test) {
+			if (!grepRegex) {
+				if (this.args.grep) {
+					grepRegex = new RegExp(this.args.grep);
+				}
+				else if (this.config.grep) {
+					grepRegex = this.config.grep;
+				}
+				else {
+					grepRegex = /.*/;
+				}
+			}
+			return grepRegex.test(test.id);
 		},
 
 		/**
