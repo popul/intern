@@ -55,6 +55,9 @@ define([
 			return dfd.promise;
 		},
 
+		/**
+		 * Filter tests based on test ID
+		 */
 		grep: function (test) {
 			if (!grepRegex) {
 				if (this.args.grep) {
