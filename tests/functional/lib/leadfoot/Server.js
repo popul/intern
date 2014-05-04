@@ -69,12 +69,12 @@ define([
 			},
 
 			'#getSessions': function () {
-				var currentSession = this.remote.session;
+				var currentSessionId = this.remote.session ? this.remote.session.sessionId : this.remote.sessionId;
 				return server.getSessions().then(function (result) {
 					assert.isArray(result);
 					assert.operator(result.length, '>=', 1);
 					assert.isTrue(result.some(function (session) {
-						return currentSession.sessionId === session.id;
+						return currentSessionId === session.id;
 					}));
 				}).otherwise(function (error) {
 					// Some servers do not support retrieving sessions; this is OK, another server test will verify
