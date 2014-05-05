@@ -17,7 +17,11 @@
 		"chai": "1.9.1"
 	},
 	"devDependencies": {
-		"intern": "https://github.com/theintern/intern/archive/master.tar.gz"
+		"intern": "1.7.0"
+	},
+	"scripts": {
+		"install": "node .fixdeps.js",
+		"update": "node .fixdeps.js"
 	},
 	"bugs": "https://github.com/theintern/intern/issues",
 	"keywords": [ "javascript", "test", "unit", "testing", "ci", "continuous integration", "bdd", "tdd", "xunit", "istanbul", "chai", "dojo", "toolkit", "selenium", "sauce labs", "code coverage" ],
