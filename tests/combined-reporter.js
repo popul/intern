@@ -35,6 +35,18 @@ define([
 			util.logError(error);
 		},
 
+		'/launcher/start': function () {
+			console.log('Starting launcher');
+		},
+
+		'/launcher/download/progress': function (launcher, progress) {
+			console.log('Download ' + (progress.received / progress.total * 100) + '% complete');
+		},
+
+		'/launcher/status': function (launcher, status) {
+			console.log('Launcher: ' + status);
+		},
+
 		'/test/fail': function (test) {
 			console.error('FAIL: ' + test.id);
 			util.logError(test.error);
