@@ -4,8 +4,6 @@ define([
 	'./lib/args',
 	'./lib/util'
 ], function (require, Deferred, args, util) {
-	var grepRegex;
-
 	return {
 		/**
 		 * The mode in which Intern is currently running. Either 'client' or 'runner'.
@@ -31,6 +29,11 @@ define([
 		 * Suites to run. Each suite defined here corresponds to a single environment.
 		 */
 		suites: [],
+
+		/**
+		 * Regular expression to use for test filtering. Exposed for testability.
+		 */
+		_grepRegex: null,
 
 		/**
 		 * Runs all environmental suites concurrently, with a concurrency limit.
@@ -59,43 +62,53 @@ define([
 		 * Filter tests based on test ID
 		 */
 		grep: function (test) {
-			if (!grepRegex) {
-				if (this.args.grep) {
-					grepRegex = new RegExp(this.args.grep);
+			if (!this._grepRegex) {
+				if (this.args && this.args.grep) {
+					this._grepRegex = new RegExp(this.args.grep);
 				}
-				else if (this.config.grep) {
-					grepRegex = this.config.grep;
+				else if (this.config && this.config.grep) {
+					this._grepRegex = this.config.grep;
 				}
 				else {
-					grepRegex = /.*/;
+					this._grepRegex = /./;
+				}
+
+				if (!(this._grepRegex instanceof RegExp)) {
+					this._grepRegex = new RegExp(this._grepRegex);
 				}
 			}
-			return grepRegex.test(test.id);
+			return this._grepRegex.test(test.id);
 		},
 
 		/**
 		 * Traverse and print the set of registered tests
 		 */
-		listTests: function (suite) {
-			var i, tests, test;
+		listTests: function (suite, tests) {
+			var i, suiteTests, test;
+
+			if (!tests) {
+				tests = [];
+			}
 
 			if (!suite) {
 				for (i = 0; i < this.suites.length; i++) {
-					this.listTests(this.suites[i]);
+					this.listTests(this.suites[i], tests);
 				}
 			}
 			else {
-				tests = suite.tests;
-				for (i = 0; i < tests.length; i++) {
-					test = tests[i];
+				suiteTests = suite.tests;
+				for (i = 0; i < suiteTests.length; i++) {
+					test = suiteTests[i];
 					if (test.tests) {
-						this.listTests(test);
+						this.listTests(test, tests);
 					}
 					else {
-						console.log(test.id);
+						tests.push(test.id);
 					}
 				}
 			}
+
+			return tests;
 		},
 
 		/**

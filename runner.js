@@ -109,15 +109,11 @@ else {
 
 			if (args.listTests) {
 				main.suites.push(new Suite({ name: 'main' }));
-				require((config.suites || []), function () {
-					console.log('Unit tests:');
-					main.listTests();
-
-					main.suites = [new Suite({ name: 'main' })];
-					require((config.functionalSuites || []), function () {
-						console.log('\nFunctional tests:');
-						main.listTests();
-					});
+				require((config.suites || []).concat(config.functionalSuites || []), function () {
+					var tests = main.listTests();
+					for (var i = 0; i < tests.length; i++) {
+						console.log(tests[i]);
+					}
 				});
 				return;
 			}
