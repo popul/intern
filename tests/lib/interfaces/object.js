@@ -82,7 +82,11 @@ define([
 			},
 
 			'lifecycle methods': function () {
-				var suiteParams = { name: 'root suite' },
+				var suiteParams = {
+						name: 'root suite',
+						// add a dummy test so that suite will be registered
+						foo: function () {}
+					},
 					results = [],
 					expectedResults = ['before', 'beforeEach', 'afterEach', 'after'],
 					lifecycleMethods = ['setup', 'beforeEach', 'afterEach', 'teardown'];

@@ -111,6 +111,17 @@ else {
 
 			this.require(config.loader);
 
+			if (args.listTests) {
+				main.suites.push(new Suite({ name: 'main' }));
+				require((config.suites || []).concat(config.functionalSuites || []), function () {
+					var tests = main.listTests();
+					for (var i = 0; i < tests.length; i++) {
+						console.log(tests[i]);
+					}
+				});
+				return;
+			}
+
 			if (!args.reporters) {
 				if (config.reporters) {
 					args.reporters = config.reporters;

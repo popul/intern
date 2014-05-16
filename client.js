@@ -4,7 +4,8 @@ if (typeof process !== 'undefined' && typeof define === 'undefined') {
 		this.dojoConfig = {
 			async: true,
 			tlmSiblingOfDojo: false,
-			useDeferredInstrumentation: false
+			useDeferredInstrumentation: false,
+			has: { 'dojo-undef-api': 1 }
 		};
 
 		var internConfig = this.__internConfig = {
