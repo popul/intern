@@ -11,7 +11,12 @@ define([
 	'intern/order!sinon/sandbox',
 	'intern/order!sinon/stub',
 	'intern/order!sinon/test',
-	'intern/order!sinon/test_case'
+	'intern/order!sinon/test_case',
+        'intern/order!sinon/util/event',
+        'intern/order!sinon/util/fake_server',
+        'intern/order!sinon/util/fake_server_with_clock',
+        'intern/order!sinon/util/fake_timers',
+        'intern/order!sinon/util/fake_xml_http_request'
 ], function (sinon) {
 	return {
 		/**
